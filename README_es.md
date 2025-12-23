@@ -1,6 +1,7 @@
 # Dotfiles
 
 # NO TERMINADO
+# PONER EL SOFTWARE QUE SE INSTALA (VLC, KCALC, ETC), DEPENDENCIAS DE PYTHON, ELEGIR NAVEGADORES, QUE SE AÑADE SUDO SIN PASSWORD
 
 *Basado en [Antonio Sarosi dotfiles](https://github.com/antoniosarosi/dotfiles)*
 

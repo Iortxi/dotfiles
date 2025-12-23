@@ -2,6 +2,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+
+# Aliases
 alias ls='lsd'
 alias cat='batcat'
 alias vi='micro'
@@ -17,32 +19,31 @@ alias apagar='shutdown now'
 alias internet='ping -c 1 -W 1 8.8.8.8 &>/dev/null && echo "Hay internet :D" || echo "No hay internet D:"'
 alias icat='kitten icat'
 
-# Scripts de spectrwm
+
+# Wait until internet works
+bucle_internet() {
+	while true; do
+		ping -c 1 -W 1 8.8.8.8 &> /dev/null
+		if [ $? -eq 0 ]; then
+			echo "Ya hay internet :D"
+			break
+		fi
+	done
+}
+
+
+# Spectrwm scripts
 if [ "$DESKTOP_SESSION" = "spectrwm" ]; then
 	alias attack='~/.config/spectrwm/attack.sh'
 	alias target='~/.config/spectrwm/target.sh'
 fi
 
-# Scripts de qtile
+
+# Qtile scripts
 if [ "$DESKTOP_SESSION" = "qtile" ]; then
 	alias theme='~/.config/qtile/scripts/theme.py'
 	alias interface='~/.config/qtile/scripts/interface.py'
 fi
-
-
-# Kali-like distros (python envs)
-if [ -d ~/.local/share/pipx/venvs ]; then
-	export PYTHONPATH=$(find ~/.local/share/pipx/venvs -type d -name "site-packages" | tr '\n' ':')$PYTHONPATH
-fi
-
-# Funcion para vaciar el contenido de un fichero
-limpiar() {
-	if [ -n "$1" -a -f "$1" ]; then
-		> "$1"
-	else
-		echo -e "\n[!] Se debe pasar un fichero como argumento\n"
-	fi
-}
 
 
 # Funcion para ver la informacion detallada de los puertos abiertos de una IP
@@ -61,16 +62,6 @@ unir_scan() {
 		find "$1" -name "*.nmap" | xargs /usr/bin/cat | grep -vE "^#.*$|^WARNING|Host is up|Service detection performed" | sponge "$2"
 	else
 		echo -e "\n[!] Se debe pasar un directorio y un fichero como argumentos\n"
-	fi
-}
-
-
-# Funcion para crear directorios para una victima
-directorios() {
-	if [ -n "$1" -a ! -f "$1" -a ! -d "$1" ]; then
-		/usr/bin/mkdir -p "$1" "$1"/scan
-	else
-		echo -e "\n[!] Se debe pasar un nombre que no exista como argumento\n"
 	fi
 }
 
