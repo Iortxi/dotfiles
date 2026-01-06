@@ -34,6 +34,7 @@ cp shell/.bashrc ~
 sudo cp /root/.bashrc /root/.bashrc.backup
 sudo rm -f /root/.bashrc
 sudo ln -s /home/"$USER"/.bashrc /root
+mkdir -p ~/.config/powerline-shell
 cp shell/config.json ~/.config/powerline-shell
 sudo ln -s /home/"$USER"/.local/bin/powerline-shell /usr/bin/powerline-shell
 
