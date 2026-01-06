@@ -12,10 +12,10 @@ sudo apt update && sudo apt upgrade -y
 
 
 # Packet installation
-sudo apt install -y bat lsd console-data htop micro socat lsof git docker.io \
+sudo apt install -y bat lsd console-data htop micro socat lsof docker.io zsh \
 apt-show-versions python3-pip python3-pyftpdlib nmap tor proxychains tmux \
 docker-compose minidlna python3-fastapi python3-pwntools python3-uvicorn xclip \
-tree zsh
+tree
 
 
 # User in docker group
