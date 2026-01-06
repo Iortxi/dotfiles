@@ -9,7 +9,7 @@ fi
 
 
 # Browser selector
-navegadores=("Firefox" "Google Chrome")
+navegadores=("Firefox ESR" "Google Chrome")
 num_navegadores="${#navegadores[@]}"
 
 # Option panel
@@ -41,15 +41,20 @@ if [ -n "$1" -a "$1" == "-l" ]; then
 fi
 
 
-# Repos update
-sudo apt update
+# System update
+sudo apt update && sudo apt upgrade -y
 
 
 # Packet installation
-sudo apt install -y spectrwm pamixer bat lsd console-data \
-feh rofi brightnessctl cbatticon pasystray \
-flameshot picom htop micro thunar pavucontrol arandr \
-kcalc vlc apt-show-versions pulseaudio-utils
+sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
+cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
+brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
+python3-pyftpdlib nmap tor proxychains docker-compose
+
+
+# Usuario en grupo docker
+sudo usermod -aG docker "$USER"
+
 
 # Spanish keyboard
 sudo setxkbmap -layout 'es,es' -model latin1
@@ -71,7 +76,7 @@ sudo chsh -s /bin/bash root
 pip install powerline-shell --break-system-packages
 sudo pip install powerline-shell --break-system-packages
 cp shell/.bashrc ~
-sudo cp /root/.bashrc /root/.bashrc_backup
+sudo cp /root/.bashrc /root/.bashrc.backup
 sudo rm -f /root/.bashrc
 sudo ln -s /home/"$USER"/.bashrc /root
 cp shell/config.json ~/.config/powerline-shell
@@ -109,7 +114,7 @@ cp -r wallpapers ~
 
 # Browser
 case $navegador in
-  # Firefox (default)
+  # Firefox ESR (default)
   0)
     if ! which firefox &>/dev/null
       sudo apt install -y firefox

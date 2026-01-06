@@ -18,6 +18,8 @@ alias suspend='sudo systemctl suspend'
 alias apagar='shutdown now'
 alias internet='ping -c 1 -W 1 8.8.8.8 &>/dev/null && echo "Hay internet :D" || echo "No hay internet D:"'
 alias icat='kitten icat'
+#alias puertos='sudo lsof -i -P -n | grep LISTEN'
+alias puertos='ss -tulnp | grep LISTEN'
 
 
 # Wait until internet works
