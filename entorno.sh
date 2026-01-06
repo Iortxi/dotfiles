@@ -12,8 +12,8 @@ pkg update && pkg upgrade -y
 
 
 # Packet installation
-pkg install -y python3 python3-pip python3-pyftpdlib nmap tmux tor proxychains python3-fastapi python3-uvicorn tree zsh htop 
-#bat lsd console-data micro socat lsof apt-show-versions xclip
+pkg install -y bat micro lsd python3 python3-pip python3-pyftpdlib nmap tmux \
+tor proxychains python3-fastapi python3-uvicorn tree zsh htop socat
 
 
 # Termux boot

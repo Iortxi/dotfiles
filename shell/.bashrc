@@ -5,7 +5,7 @@
 
 # Aliases
 alias ls='lsd'
-alias cat='batcat'
+alias cat='bat'
 alias vi='micro'
 alias vin='/usr/bin/vi'
 alias catn='/usr/bin/cat'
@@ -14,12 +14,10 @@ alias ll='ls -l'
 alias la='ls -A'
 alias lla='ls -lA'
 alias rm='rm -rf'
-alias suspend='sudo systemctl suspend'
-alias apagar='shutdown now'
 alias internet='ping -c 1 -W 1 8.8.8.8 &>/dev/null && echo "Hay internet :D" || echo "No hay internet D:"'
-alias icat='kitten icat'
-#alias puertos='sudo lsof -i -P -n | grep LISTEN'
 alias puertos='ss -tulnp | grep LISTEN'
+alias tmux='tmux -f ~/.tmux.conf'
+alias prxoxychains='prxoxychains4'
 
 
 # Wait until internet works
@@ -68,7 +66,7 @@ extractPorts() {
 }
 
 
-# Powerline-shell prompt
+# Powerline-shell
 _update_ps1() {
   estado=$?
   if [ $UID -eq 0 ]; then
