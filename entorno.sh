@@ -8,18 +8,21 @@ fi
 
 
 # System update
-sudo apt update && sudo apt upgrade -y
+pkg update && pkg upgrade -y
 
 
 # Packet installation
-sudo apt install -y bat lsd console-data htop micro socat lsof git docker.io \
-apt-show-versions python3-pip python3-pyftpdlib nmap tor proxychains tmux \
-docker-compose minidlna python3-fastapi python3-pwntools python3-uvicorn xclip \
-tree zsh
+pkg install -y python3 python3-pip python3-pyftpdlib nmap tmux tor proxychains python3-fastapi python3-uvicorn tree zsh htop 
+#bat lsd console-data micro socat lsof apt-show-versions xclip
 
 
-# User in docker group
-sudo usermod -aG docker "$USER"
+# Termux boot
+mkdir -p ~/.termux/boot
+cp boot/boot.sh ~/.termux/boot
+
+
+# Proxychains config file
+ln -s /data/data/com.termux/files/usr/etc/proxychains.conf ~/proxychains.conf
 
 
 # Shell (Bash) and prompt
@@ -33,15 +36,6 @@ sudo rm -f /root/.bashrc
 sudo ln -s /home/"$USER"/.bashrc /root
 cp shell/config.json ~/.config/powerline-shell
 sudo ln -s /home/"$USER"/.local/bin/powerline-shell /usr/bin/powerline-shell
-
-
-# Minidlna
-mkdir -p /mnt/videos
-sudo cp minidlna/minidlna.conf /etc/
-sudo chown -R minidlna:minidlna /mnt/videos
-sudo chmod -R 755 /mnt/videos
-sudo systemctl start minidlna
-sudo systemctl enable minidlna
 
 
 # Tmux
