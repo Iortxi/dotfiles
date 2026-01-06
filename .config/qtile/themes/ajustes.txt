@@ -1,6 +1,0 @@
-
-Descartes:
-	- rosepine
-	- nord-wave
-
-"dark" de material-ocean en dracula

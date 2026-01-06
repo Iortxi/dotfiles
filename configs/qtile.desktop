@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Qtile
-Comment=Qtile Session
-Exec=/home/iortxi/.config/qtile/scripts/lanzar.sh
-Type=Application
-Keywords=wm;tiling

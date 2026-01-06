@@ -34,20 +34,6 @@ bucle_internet() {
 }
 
 
-# Spectrwm scripts
-if [ "$DESKTOP_SESSION" = "spectrwm" ]; then
-	alias attack='~/.config/spectrwm/attack.sh'
-	alias target='~/.config/spectrwm/target.sh'
-fi
-
-
-# Qtile scripts
-if [ "$DESKTOP_SESSION" = "qtile" ]; then
-	alias theme='~/.config/qtile/scripts/theme.py'
-	alias interface='~/.config/qtile/scripts/interface.py'
-fi
-
-
 # Funcion para ver la informacion detallada de los puertos abiertos de una IP
 info_ip() {
 	if [ -n "$1" -a -f "$1" -a -n "$2" ]; then
@@ -78,7 +64,7 @@ extractPorts() {
 	echo $ports | tr -d '\n' | xclip -sel clip
 	echo -e "[*] Ports copied to clipboard\n"  >> extractPorts.tmp
 	cat extractPorts.tmp
-	rm extractPorts.tmp
+	rm -f extractPorts.tmp
 }
 
 
