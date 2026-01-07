@@ -16,7 +16,7 @@ feh --bg-scale ~/wallpapers/nvidia_loko.jpg
 
 
 # Teclado en español
-setxkbmap 'es,es' -model latin1
+setxkbmap es,es
 
 
 # Volume all up

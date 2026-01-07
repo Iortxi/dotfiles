@@ -1,5 +1,8 @@
 #!/bin/bash
 
+###########################################
+# PODER ELEGIR SHELL
+###########################################
 
 # Check user NOT root
 if [ $UID -eq 0 ]; then
@@ -22,16 +25,36 @@ declare -i navegador
 echo -n "[?] Select a browser to install (number): "
 read navegador
 
-# Option check, browser number in "navegador"
+# Option check, browser int number in "navegador"
 while true; do
   if [ $navegador -lt 0 -o $navegador -ge $num_navegadores ]; then
-    break
-  else
     echo
     echo -n "[!] You must select a valid browser to install (number): "
     read navegador
+  else
+    break
   fi
 done
+
+
+# Keyboard layout
+echo -n "[?] Select a keyboard layout to use (default 'es'): "
+read keyboard_layout
+if [ -z "$keyboard_layout" ]; then
+  keyboard_layout="es"
+fi
+
+setxkbmap $keyboard_layout,$keyboard_layout
+sed -i 's/es,es/$keyboard_layout,$keyboard_layout/g' .config/qtile/autostart.sh .config/spectrwm/autostart.sh
+
+
+# Sudo without password
+echo -n "[?] Do you want your user to be able to execute sudo without password (Y/n): "
+read keyboard_layout
+keyboard_layout=`echo "$keyboard_layout" | awk '{print tolower($0)}'`
+if [ "$keyboard_layout" == "y" -o -z "$keyboard_layout" ]; then
+  echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+fi
 
 
 # Icono de bateria del systray para portatiles (-l -> labtop)
@@ -45,19 +68,16 @@ fi
 sudo apt update && sudo apt upgrade -y
 
 
-# Packet installation
+# Packets installation
 sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
 cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
 brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
-python3-pyftpdlib nmap tor proxychains docker-compose
+python3-pyftpdlib nmap tor proxychains docker-compose torsocks unzip wget curl \
+zip 7zip gzip gunzip tmux
 
 
-# Usuario en grupo docker
+# User to docker group
 sudo usermod -aG docker "$USER"
-
-
-# Spanish keyboard
-sudo setxkbmap -layout 'es,es' -model latin1
 
 
 # Python dependencies
@@ -114,22 +134,36 @@ cp -r wallpapers ~
 
 # Browser
 case $navegador in
-  # Firefox ESR (default)
+  # Firefox ESR
   0)
-    if ! which firefox &>/dev/null
-      sudo apt install -y firefox
+    if ! which firefox-esr &>/dev/null; then
+      sudo apt install -y firefox-esr
+    fi
+
+    # Labtop zoom touch support
+    if [ -n "$1" -a "$1" == "-l" ]; then
+      echo "MOZ_USE_XINPUT2 DEFAULT=1" | sudo tee -a /etc/security/pam_env.conf
+      #set "dom.w3c_touch_events.enabled" to 1 (default is 2) in "about:config" in firefox, PONER EN README
+    fi
     ;;
 
   # Google Chrome
   1)
-    if ! which google-chrome &>/dev/null
+    if ! which google-chrome &>/dev/null; then
       wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       sudo dpkg -i google-chrome-stable_current_amd64.deb
       rm -f google-chrome-stable_current_amd64.deb
 
+      # Shortcuts and keybindings changes to Chrome
       sed -i 's/mod], "Space", lazy.spawn("firefox")),/([mod], "Space", lazy.spawn("google-chrome-stable")),/' .config/qtile/settings/keys.py
       sed -i 's/program\[firefox\] = firefox/program\[google-chrome-stable\] = google-chrome-stable/' configs/spectrwm.conf
       sed -i 's/bind\[firefox\] = MOD+space/bind\[google-chrome-stable\] = MOD+space/' configs/spectrwm.conf
+
+      # uBlock Origin, DESCRIBIR COMO SE INSTALA MANUALMENTE EN CHROME
+      wget "https://github.com/gorhill/uBlock/releases/download/1.68.0/uBlock0_1.68.0.chromium.zip" -O ublock.zip
+      unzip ublock.zip -d ~/.config/chromium
+      rm -f ublock.zip
+    fi
     ;;
 
 esac
@@ -144,10 +178,6 @@ rm -f vscode.deb
 
 # .config directory
 cp -r .config/* ~/.config
-
-
-# Sudo without password
-echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
 
 
 # Grub without timeout

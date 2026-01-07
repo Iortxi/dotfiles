@@ -7,7 +7,7 @@
 pasystray &
 
 # Spanish keyboard
-setxkbmap -layout es,es -model latin1
+setxkbmap -layout es,es
 
 # Image Compositor
 picom &
