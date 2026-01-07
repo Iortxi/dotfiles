@@ -48,3 +48,23 @@ sudo systemctl enable minidlna
 # Tmux
 cp tmux/.tmux.conf ~
 tmux source-file ~/.tmux.conf
+
+
+# Pi-Hole
+
+# Contrasegna
+echo -n "[?] Set a password for the pi-hole admin panel: "
+read pi_hole_pass
+
+# Zona horaria
+echo -n "[?] Set a timezone for pi-hole: "
+read pi_hole_timezone
+
+# Directorio ~/docker/pi-hole y docker-compose
+mkdir -p ~/docker/pi-hole
+cp docker/pi-hole/docker-compose.yml ~/docker/pi-hole
+sed -i 's/correct horse battery staple/"$pi_hole_pass"/g' ~/docker/pi-hole/docker-compose.yml
+sed -i 's/Europe\/London/"$pi_hole_timezone"/g' ~/docker/pi-hole/docker-compose.yml
+
+# Pullear imagen y desplegar contenedor
+docker-compose up -d

@@ -7,6 +7,8 @@
 - [English 🇬🇧](./README.md)
 
 # Descripción general
+Lista de timezone's -> https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
 Configuración de entorno de escritorio totalmente automatizado. Preferible ejecutarlo en una instalación nueva de un SO. **Debería funcionar en cualquier distro con el gestor de paquetes `apt`**.
 
 Probado en:
