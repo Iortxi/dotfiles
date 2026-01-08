@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Qtile
 Comment=Qtile Session
-Exec=/home/iortxi/.config/qtile/scripts/lanzar.sh
+Exec=/home/USER/.config/qtile/scripts/qtile.sh
 Type=Application
 Keywords=wm;tiling

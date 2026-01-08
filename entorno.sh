@@ -35,6 +35,7 @@ while true; do
     break
   fi
 done
+echo;echo
 
 
 
@@ -49,6 +50,7 @@ fi
 
 setxkbmap $keyboard_layout,$keyboard_layout
 sed -i 's/es,es/$keyboard_layout,$keyboard_layout/g' .config/qtile/autostart.sh .config/spectrwm/autostart.sh
+echo;echo
 
 
 
@@ -61,6 +63,7 @@ keyboard_layout=`echo "$keyboard_layout" | awk '{print tolower($0)}'`
 if [ "$keyboard_layout" == "y" -o -z "$keyboard_layout" ]; then
   echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 fi
+echo;echo
 
 
 
@@ -90,6 +93,7 @@ while true; do
     break
   fi
 done
+echo;echo
 
 
 
@@ -107,6 +111,7 @@ fi
 # SYSTEM UPDATE
 ##########################
 sudo apt update && sudo apt upgrade -y
+sudo apt autoremove -y
 
 
 
@@ -117,7 +122,7 @@ sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
 cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
 brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
 python3-pyftpdlib nmap tor proxychains docker-compose torsocks unzip wget curl \
-zip 7zip gzip gunzip tmux zsh
+zip 7zip gzip tmux zsh
 
 
 
@@ -208,8 +213,7 @@ sudo cp configs/spectrwm.desktop /usr/share/xsessions
 pip install qtile --break-system-packages
 sudo pip install qtile --break-system-packages
 
-# REVISAR BIEN FICHERO .desktop DE QTILE Y SCRIPTS "lanzar.sh" Y "qtile.sh", PROBAR EN MAQUINA VIRTUAL
-sed -i 's/qtile start/\/home\/$USER\/.config\/qtile\/scripts\/qtile.sh/g' configs/qtile.desktop
+sed -i 's/USER/$USER/g' .config/qtile/scripts/qtile.sh configs/qtile.desktop
 sudo cp configs/qtile.desktop /usr/share/xsessions
 sudo ln -s /home/$USER/.local/bin/qtile /usr/bin/qtile
 
