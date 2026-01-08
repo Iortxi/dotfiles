@@ -95,11 +95,11 @@ sudo chsh -s /usr/bin/bash "$USER"
 sudo chsh -s /bin/bash root
 pip install powerline-shell --break-system-packages
 sudo pip install powerline-shell --break-system-packages
-cp shell/.bashrc ~
+cp shell/bash/.bashrc ~
 sudo cp /root/.bashrc /root/.bashrc.backup
 sudo rm -f /root/.bashrc
 sudo ln -s /home/"$USER"/.bashrc /root
-cp shell/config.json ~/.config/powerline-shell
+cp shell/bash/config.json ~/.config/powerline-shell
 sudo ln -s /home/"$USER"/.local/bin/powerline-shell /usr/bin/powerline-shell
 
 

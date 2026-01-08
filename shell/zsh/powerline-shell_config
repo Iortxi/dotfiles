@@ -1,0 +1,23 @@
+powerline_precmd() {
+  local estado=$?
+  if [[ $UID -eq 0 ]]; then
+    PS1="$(powerline-shell --shell zsh $estado)
+%F{red}~%f> "
+  else
+    PS1="$(powerline-shell --shell zsh $estado)
+%F{green}~%f> "
+  fi
+}
+
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
+
+if [ "$TERM" != "linux" -a -x "$(command -v powerline-shell)" ]; then
+    install_powerline_precmd
+fi
