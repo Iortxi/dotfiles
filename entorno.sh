@@ -28,9 +28,9 @@ read navegador
 # Option check, browser int number in "navegador"
 while true; do
   if [ $navegador -lt 0 -o $navegador -ge $num_navegadores ]; then
-    echo
     echo -n "[!] You must select a valid browser to install (number): "
     read navegador
+    echo
   else
     break
   fi
@@ -49,7 +49,7 @@ if [ -z "$keyboard_layout" ]; then
 fi
 
 setxkbmap $keyboard_layout,$keyboard_layout
-sed -i 's/es,es/$keyboard_layout,$keyboard_layout/g' .config/qtile/autostart.sh .config/spectrwm/autostart.sh
+sed -i "s/es,es/$keyboard_layout,$keyboard_layout/g" .config/qtile/autostart.sh .config/spectrwm/autostart.sh
 echo;echo
 
 
@@ -86,14 +86,14 @@ read shell
 # Option check, shell int number in "shell"
 while true; do
   if [ $shell -lt 0 -o $shell -ge $num_shells ]; then
-    echo
     echo -n "[!] You must select a valid shell to use (number): "
     read shell
+    echo
   else
     break
   fi
 done
-echo;echo
+
 
 
 
@@ -160,8 +160,7 @@ sudo pip install powerline-shell --break-system-packages
 # .rc files
 cp shell/bash/.bashrc ~
 cp shell/zsh/.zshrc ~
-sudo rm -f /root/.bashrc
-sudo rm -f /root/.zshrc
+sudo rm -f /root/.bashrc /root/.zshrc
 sudo ln -s ~/.bashrc /root/.bashrc
 sudo ln -s ~/.zshrc /root/.zshrc
 
@@ -173,6 +172,7 @@ cp shell/zsh/.zsh_powerline_shell ~
 cp shell/bash/config.json ~/.config/powerline-shell
 
 # Root
+sudo mkdir -p /root/.config/powerline-shell
 sudo ln -s ~/.bash_powerline_shell /root/.bash_powerline_shell
 sudo ln -s ~/.zsh_powerline_shell /root/.zsh_powerline_shell
 sudo ln -s ~/.config/powerline-shell/config.json /root/.config/powerline-shell/config.json
@@ -211,9 +211,8 @@ sudo cp configs/spectrwm.desktop /usr/share/xsessions
 # QTILE
 ##########################
 pip install qtile --break-system-packages
-sudo pip install qtile --break-system-packages
 
-sed -i 's/USER/$USER/g' .config/qtile/scripts/qtile.sh configs/qtile.desktop
+sed -i "s/USER/$USER/g" .config/qtile/scripts/qtile.sh configs/qtile.desktop
 sudo cp configs/qtile.desktop /usr/share/xsessions
 sudo ln -s /home/$USER/.local/bin/qtile /usr/bin/qtile
 
