@@ -19,7 +19,6 @@ num_navegadores="${#navegadores[@]}"
 for i in "${!navegadores[@]}"; do
   echo "[$i] ${navegadores[$i]}"
 done
-echo
 
 declare -i navegador
 echo -n "[?] Select a browser to install (number): "
@@ -35,7 +34,7 @@ while true; do
     break
   fi
 done
-echo;echo
+echo
 
 
 
@@ -50,7 +49,7 @@ fi
 
 setxkbmap $keyboard_layout,$keyboard_layout
 sed -i "s/es,es/$keyboard_layout,$keyboard_layout/g" .config/qtile/autostart.sh .config/spectrwm/autostart.sh
-echo;echo
+echo
 
 
 
@@ -63,7 +62,7 @@ keyboard_layout=`echo "$keyboard_layout" | awk '{print tolower($0)}'`
 if [ "$keyboard_layout" == "y" -o -z "$keyboard_layout" ]; then
   echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 fi
-echo;echo
+echo
 
 
 
@@ -77,7 +76,7 @@ num_shells="${#shells[@]}"
 for i in "${!shells[@]}"; do
   echo "[$i] ${shells[$i]}"
 done
-echo
+
 
 declare -i shell
 echo -n "[?] Select a shell to use (number): "
@@ -268,9 +267,7 @@ case $navegador in
       rm -f google-chrome-stable_current_amd64.deb
 
       # Shortcuts and keybindings changes to Chrome
-      sed -i 's/mod], "Space", lazy.spawn("firefox")),/([mod], "Space", lazy.spawn("google-chrome-stable")),/' .config/qtile/settings/keys.py
-      sed -i 's/program\[firefox\] = firefox/program\[google-chrome-stable\] = google-chrome-stable/' configs/spectrwm.conf
-      sed -i 's/bind\[firefox\] = MOD+space/bind\[google-chrome-stable\] = MOD+space/' configs/spectrwm.conf
+      sed -i 's/firefox/google-chrome-stable/g' .config/qtile/settings/keys.py configs/spectrwm.conf
 
       # uBlock Origin, DESCRIBIR COMO SE INSTALA MANUALMENTE EN CHROME
       wget "https://github.com/gorhill/uBlock/releases/download/1.68.0/uBlock0_1.68.0.chromium.zip" -O ublock.zip
