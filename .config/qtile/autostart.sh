@@ -13,7 +13,7 @@ setxkbmap -layout es,es
 picom &
 
 # Wallpaper
-feh --bg-scale ~/wallpapers/nvidia_loko.jpg
+feh --bg-fill ~/wallpapers/nvidia.jpg
 
 # Volume all up
 pactl set-sink-volume @DEFAULT_SINK@ 100%

@@ -1,0 +1,126 @@
+format = """
+$username\
+$directory\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$vcsh\
+$fossil_branch\
+$fossil_metrics\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$hg_state\
+$pijul_channel\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$fortran\
+$gleam\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$quarto\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$terraform\
+$typst\
+$vlang\
+$vagrant\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$nats\
+$direnv\
+$env_var\
+$mise\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$status\
+$line_break\
+$jobs\
+$battery\
+$time\
+$container\
+$os\
+$netns\
+$shell\
+$character"""
+
+# Usuario siempre visible
+[username]
+show_always = true
+
+# Directorio con ruta absoluta
+[directory]
+truncation_length = 0
+truncate_to_repo = false
+style = "bold blue"
+format = "[$path]($style) "
+
+# Simbolo del prompt
+[character]
+success_symbol = "[~](bold green)[>](bold white)"
+error_symbol = "[~](bold red)[>](bold white)"
+
+# SSH
+[hostname]
+ssh_only = true
+format = 'at [$ssh_symbol](dimmed)[$hostname](dimmed green) '
+trim_at = '.companyname.com'
+
+# Codigo de estado
+[status]
+symbol = "✘"
+format = '[$status](bold red) '
+disabled = false
+
+# Duracion de un comando
+[cmd_duration]
+min_time=1_000

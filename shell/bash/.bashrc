@@ -83,17 +83,7 @@ extractPorts() {
 
 
 # Powerline-shell prompt
-_update_ps1() {
-  estado=$?
-  if [ $UID -eq 0 ]; then
-    # Root prompt
-    PS1=$(powerline-shell $estado)"\n\[\033[01;31m\]~\[\033[00m\]> "
-  else
-    # Normal user prompt
-    PS1=$(powerline-shell $estado)"\n\[\033[01;32m\]~\[\033[00m\]> "
-  fi
-}
+#. ~/.bash_powerline_shell
 
-if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
-  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
+# Starship prompt
+eval "$(starship init bash)"

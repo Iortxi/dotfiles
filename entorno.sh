@@ -11,6 +11,7 @@ if [ $UID -eq 0 ]; then
 fi
 
 
+
 # Browser selector
 navegadores=("Firefox ESR" "Google Chrome")
 num_navegadores="${#navegadores[@]}"
@@ -37,6 +38,7 @@ while true; do
 done
 
 
+
 # Keyboard layout
 echo -n "[?] Select a keyboard layout to use (default 'es'): "
 read keyboard_layout
@@ -48,6 +50,7 @@ setxkbmap $keyboard_layout,$keyboard_layout
 sed -i 's/es,es/$keyboard_layout,$keyboard_layout/g' .config/qtile/autostart.sh .config/spectrwm/autostart.sh
 
 
+
 # Sudo without password
 echo -n "[?] Do you want your user to be able to execute sudo without password (Y/n): "
 read keyboard_layout
@@ -57,6 +60,34 @@ if [ "$keyboard_layout" == "y" -o -z "$keyboard_layout" ]; then
 fi
 
 
+
+# Shell selector
+shells=("Bash" "Zsh")
+num_shells="${#shells[@]}"
+
+# Option panel
+for i in "${!shells[@]}"; do
+  echo "[$i] ${shells[$i]}"
+done
+echo
+
+declare -i shell
+echo -n "[?] Select a shell to use (number): "
+read shell
+
+# Option check, shell int number in "shell"
+while true; do
+  if [ $shell -lt 0 -o $shell -ge $num_shells ]; then
+    echo
+    echo -n "[!] You must select a valid shell to use (number): "
+    read shell
+  else
+    break
+  fi
+done
+
+
+
 # Icono de bateria del systray para portatiles (-l -> labtop)
 if [ -n "$1" -a "$1" == "-l" ]; then
   sed -i 's/#cbatticon -u 5 &/cbatticon -u 5 &/g' .config/qtile/autostart.sh
@@ -64,8 +95,10 @@ if [ -n "$1" -a "$1" == "-l" ]; then
 fi
 
 
+
 # System update
 sudo apt update && sudo apt upgrade -y
+
 
 
 # Packets installation
@@ -73,15 +106,18 @@ sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
 cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
 brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
 python3-pyftpdlib nmap tor proxychains docker-compose torsocks unzip wget curl \
-zip 7zip gzip gunzip tmux
+zip 7zip gzip gunzip tmux zsh
+
 
 
 # User to docker group
 sudo usermod -aG docker "$USER"
 
 
+
 # Python dependencies
 pip install termcolor --break-system-packages
+
 
 
 # Obsidian
@@ -90,17 +126,52 @@ chmod +x obsidian
 sudo mv obsidian /usr/bin
 
 
-# Shell (Bash) and prompt
-sudo chsh -s /usr/bin/bash "$USER"
-sudo chsh -s /bin/bash root
+
+# Shell
+# Starship and powerline-shell installation
+sudo curl -sS https://starship.rs/install.sh | sh
 pip install powerline-shell --break-system-packages
 sudo pip install powerline-shell --break-system-packages
+
+# .rc files
 cp shell/bash/.bashrc ~
-sudo cp /root/.bashrc /root/.bashrc.backup
+cp shell/zsh/.zshrc ~
 sudo rm -f /root/.bashrc
-sudo ln -s /home/"$USER"/.bashrc /root
+sudo rm -f /root/.zshrc
+sudo ln -s ~/.bashrc /root/.bashrc
+sudo ln -s ~/.zshrc /root/.zshrc
+
+# Powerline-shell setup
+sudo ln -s ~/.local/bin/powerline-shell /usr/bin/powerline-shell
+# User
+cp shell/bash/.bash_powerline_shell ~
+cp shell/zsh/.zsh_powerline_shell ~
 cp shell/bash/config.json ~/.config/powerline-shell
-sudo ln -s /home/"$USER"/.local/bin/powerline-shell /usr/bin/powerline-shell
+
+# Root
+sudo ln -s ~/.bash_powerline_shell /root/.bash_powerline_shell
+sudo ln -s ~/.zsh_powerline_shell /root/.zsh_powerline_shell
+sudo ln -s ~/.config/powerline-shell/config.json /root/.config/powerline-shell/config.json
+
+# Starship setup
+cp shell/zsh/starship.toml ~/.config/starship.toml
+sudo ln -s ~/.config/starship.toml /root/.config/starship.toml
+
+
+case $shell in
+  # Bash
+  0)
+    sudo chsh -s /bin/bash "$USER"
+    sudo chsh -s /bin/bash root
+    ;;
+
+  # Zsh
+  1)
+    sudo chsh -s /usr/bin/zsh "$USER"
+    sudo chsh -s /usr/bin/zsh root
+    ;;
+esac
+
 
 
 # Spectrwm
@@ -108,18 +179,22 @@ sudo cp configs/spectrwm.conf /etc/
 sudo cp configs/spectrwm.desktop /usr/share/xsessions
 
 
+
 # Qtile
-sed -i 's/iortxi/$USER/g' .config/qtile/scripts/qtile.sh
 pip install qtile --break-system-packages
 sudo pip install qtile --break-system-packages
+
+# REVISAR BIEN FICHERO .desktop DE QTILE Y SCRIPTS "lanzar.sh" Y "qtile.sh", PROBAR EN MAQUINA VIRTUAL
 sed -i 's/qtile start/\/home\/$USER\/.config\/qtile\/scripts\/qtile.sh/g' configs/qtile.desktop
 sudo cp configs/qtile.desktop /usr/share/xsessions
 sudo ln -s /home/$USER/.local/bin/qtile /usr/bin/qtile
 
 
+
 # Fonts: 'UbuntuMono Nerd Font' and 'Hack Nerd Font'
 mkdir -p ~/.local/share/fonts
 cp fuente/* ~/.local/share/fonts
+
 
 
 # Kitty Terminal
@@ -128,8 +203,10 @@ sudo ln -s /home/$USER/.local/kitty.app/bin/kitty /usr/bin/kitty
 sudo ln -s /home/$USER/.local/kitty.app/bin/kitten /usr/bin/kitten
 
 
+
 # Wallpapers
 cp -r wallpapers ~
+
 
 
 # Browser
@@ -165,8 +242,8 @@ case $navegador in
       rm -f ublock.zip
     fi
     ;;
-
 esac
+
 
 
 # Visual Studio Code
@@ -176,8 +253,10 @@ sudo dpkg -i vscode.deb
 rm -f vscode.deb
 
 
+
 # .config directory
 cp -r .config/* ~/.config
+
 
 
 # Grub without timeout

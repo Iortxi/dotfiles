@@ -12,7 +12,7 @@ echo -n "No target" > ~/.config/spectrwm/objetivoBD
 
 
 # Fondo de pantalla
-feh --bg-scale ~/wallpapers/nvidia_loko.jpg
+feh --bg-fill ~/wallpapers/nvidia.jpg
 
 
 # Teclado en español
