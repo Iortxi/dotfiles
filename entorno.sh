@@ -268,11 +268,6 @@ case $navegador in
 
       # Shortcuts and keybindings changes to Chrome
       sed -i 's/firefox/google-chrome-stable/g' .config/qtile/settings/keys.py configs/spectrwm.conf
-
-      # uBlock Origin, DESCRIBIR COMO SE INSTALA MANUALMENTE EN CHROME
-      wget "https://github.com/gorhill/uBlock/releases/download/1.68.0/uBlock0_1.68.0.chromium.zip" -O ublock.zip
-      unzip ublock.zip -d ~/.config/chromium
-      rm -f ublock.zip
     fi
     ;;
 esac
@@ -301,3 +296,7 @@ cp -r .config/* ~/.config
 ##########################
 sudo sed -i 's/GRUB_TIMEOUT.*/GRUB_TIMEOUT=-1/g' /etc/default/grub
 sudo update-grub
+
+
+echo "[*] Setup completed!"
+echo "Reboot your computer and enjoy! :D"
