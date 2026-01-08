@@ -1,18 +1,17 @@
 #!/bin/bash
 
-###########################################
-# PODER ELEGIR SHELL
-###########################################
-
-# Check user NOT root
+##########################
+# ROOT CHECK
+##########################
 if [ $UID -eq 0 ]; then
-  echo "[!] Do not execute this as root"
+  echo "[!] Do NOT execute this as root"
   exit 1
 fi
 
 
-
-# Browser selector
+##########################
+# BROWSER SELECTOR
+##########################
 navegadores=("Firefox ESR" "Google Chrome")
 num_navegadores="${#navegadores[@]}"
 
@@ -39,7 +38,9 @@ done
 
 
 
-# Keyboard layout
+##########################
+# KEYBOARD LAYOUT
+##########################
 echo -n "[?] Select a keyboard layout to use (default 'es'): "
 read keyboard_layout
 if [ -z "$keyboard_layout" ]; then
@@ -51,7 +52,9 @@ sed -i 's/es,es/$keyboard_layout,$keyboard_layout/g' .config/qtile/autostart.sh 
 
 
 
-# Sudo without password
+##########################
+# SUDO WITHOUT PASSWORD
+##########################
 echo -n "[?] Do you want your user to be able to execute sudo without password (Y/n): "
 read keyboard_layout
 keyboard_layout=`echo "$keyboard_layout" | awk '{print tolower($0)}'`
@@ -61,7 +64,9 @@ fi
 
 
 
-# Shell selector
+##########################
+# SHELL SELECTOR
+##########################
 shells=("Bash" "Zsh")
 num_shells="${#shells[@]}"
 
@@ -88,7 +93,9 @@ done
 
 
 
-# Icono de bateria del systray para portatiles (-l -> labtop)
+##########################
+# BATTERY ICON (LABTOPS)
+##########################
 if [ -n "$1" -a "$1" == "-l" ]; then
   sed -i 's/#cbatticon -u 5 &/cbatticon -u 5 &/g' .config/qtile/autostart.sh
   sed -i 's/#cbatticon -u 5 &/cbatticon -u 5 &/g' .config/spectrwm/autostart.sh
@@ -96,12 +103,16 @@ fi
 
 
 
-# System update
+##########################
+# SYSTEM UPDATE
+##########################
 sudo apt update && sudo apt upgrade -y
 
 
 
-# Packets installation
+##########################
+# PACKETS INSTALLATION
+##########################
 sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
 cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
 brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
@@ -110,24 +121,32 @@ zip 7zip gzip gunzip tmux zsh
 
 
 
-# User to docker group
+##########################
+# USER IN DOCKER GROUP
+##########################
 sudo usermod -aG docker "$USER"
 
 
 
-# Python dependencies
+##########################
+# PYTHON DEPENDENCIES
+##########################
 pip install termcolor --break-system-packages
 
 
 
-# Obsidian
+##########################
+# OBSIDIAN INSTALLATION
+##########################
 wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.7/Obsidian-1.7.7.AppImage -O obsidian
 chmod +x obsidian
 sudo mv obsidian /usr/bin
 
 
 
-# Shell
+##########################
+# SHELLS SETUP
+##########################
 # Starship and powerline-shell installation
 sudo curl -sS https://starship.rs/install.sh | sh
 pip install powerline-shell --break-system-packages
@@ -157,7 +176,7 @@ sudo ln -s ~/.config/powerline-shell/config.json /root/.config/powerline-shell/c
 cp shell/zsh/starship.toml ~/.config/starship.toml
 sudo ln -s ~/.config/starship.toml /root/.config/starship.toml
 
-
+# Shell selector
 case $shell in
   # Bash
   0)
@@ -174,13 +193,17 @@ esac
 
 
 
-# Spectrwm
+##########################
+# SPECTRWM
+##########################
 sudo cp configs/spectrwm.conf /etc/
 sudo cp configs/spectrwm.desktop /usr/share/xsessions
 
 
 
-# Qtile
+##########################
+# QTILE
+##########################
 pip install qtile --break-system-packages
 sudo pip install qtile --break-system-packages
 
@@ -191,25 +214,34 @@ sudo ln -s /home/$USER/.local/bin/qtile /usr/bin/qtile
 
 
 
-# Fonts: 'UbuntuMono Nerd Font' and 'Hack Nerd Font'
+##########################
+# FONTS
+##########################
+#'UbuntuMono Nerd Font' and 'Hack Nerd Font'
 mkdir -p ~/.local/share/fonts
 cp fuente/* ~/.local/share/fonts
 
 
 
-# Kitty Terminal
+##########################
+# KITTY TERMINAL
+##########################
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 sudo ln -s /home/$USER/.local/kitty.app/bin/kitty /usr/bin/kitty
 sudo ln -s /home/$USER/.local/kitty.app/bin/kitten /usr/bin/kitten
 
 
 
-# Wallpapers
+##########################
+# WALLPAPERS
+##########################
 cp -r wallpapers ~
 
 
 
-# Browser
+##########################
+# BROWSER
+##########################
 case $navegador in
   # Firefox ESR
   0)
@@ -246,7 +278,9 @@ esac
 
 
 
-# Visual Studio Code
+##########################
+# VSCODE
+##########################
 wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
 mv 'download?build=stable&os=linux-deb-x64' 'vscode.deb'
 sudo dpkg -i vscode.deb
@@ -254,11 +288,15 @@ rm -f vscode.deb
 
 
 
-# .config directory
+##########################
+# .config DIRECTORY
+##########################
 cp -r .config/* ~/.config
 
 
 
-# Grub without timeout
+##########################
+# GRUB WITHOUT TIMEOUT
+##########################
 sudo sed -i 's/GRUB_TIMEOUT.*/GRUB_TIMEOUT=-1/g' /etc/default/grub
 sudo update-grub
