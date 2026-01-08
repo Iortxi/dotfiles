@@ -182,6 +182,7 @@ case $shell in
   0)
     sudo chsh -s /bin/bash "$USER"
     sudo chsh -s /bin/bash root
+    sed -i 's/shell zsh/shell bash/g' .config/kitty/kitty.conf
     ;;
 
   # Zsh
