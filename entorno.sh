@@ -97,7 +97,7 @@ done
 
 
 ##########################
-# BATTERY ICON (LABTOPS)
+# BATTERY ICON (LABTOP)
 ##########################
 if [ -n "$1" -a "$1" == "-l" ]; then
   sed -i 's/#cbatticon -u 5 &/cbatticon -u 5 &/g' .config/qtile/autostart.sh
@@ -110,6 +110,7 @@ fi
 # SYSTEM UPDATE
 ##########################
 sudo apt update && sudo apt upgrade -y
+#sudo apt update && sudo apt full-upgrade -y # Kali Linux
 sudo apt autoremove -y
 
 
@@ -121,7 +122,7 @@ sudo apt install -y spectrwm pamixer bat lsd console-data feh rofi picom htop \
 cbatticon pasystray flameshot micro thunar pavucontrol arandr kcalc vlc socat \
 brightnessctl apt-show-versions pulseaudio-utils docker.io lsof python3-pip git \
 python3-pyftpdlib nmap tor proxychains docker-compose torsocks unzip wget curl \
-zip 7zip gzip tmux zsh
+zip 7zip gzip tmux zsh fastfetch
 
 
 
