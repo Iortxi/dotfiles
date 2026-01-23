@@ -109,8 +109,7 @@ fi
 ##########################
 # SYSTEM UPDATE
 ##########################
-sudo apt update && sudo apt upgrade -y
-#sudo apt update && sudo apt full-upgrade -y # Kali Linux
+sudo apt update && sudo apt full-upgrade -y
 sudo apt autoremove -y
 
 
