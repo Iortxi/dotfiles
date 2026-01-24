@@ -266,8 +266,8 @@ case $navegador in
       sudo dpkg -i google-chrome-stable_current_amd64.deb
       rm -f google-chrome-stable_current_amd64.deb
 
-      # Shortcuts and keybindings changes to Chrome
-      sed -i 's/firefox/google-chrome-stable/g' .config/qtile/settings/keys.py configs/spectrwm.conf
+      # Shortcuts with Chrome
+      sed -i 's/firefox/google-chrome/g' .config/qtile/settings/keys.py configs/spectrwm.conf
     fi
     ;;
 esac
