@@ -91,7 +91,22 @@ $container\
 $os\
 $netns\
 $shell\
-$character"""
+${custom.prompt-user}\
+${custom.prompt-root}"""
+
+
+# Prompt para usuario normal
+[custom.prompt-user]
+command = "echo '~'"
+when = "test $UID -ne 0"
+style = "bold green white"
+format = "[$output](bold green)[>](bold white) "
+
+# Prompt para root
+[custom.prompt-root]
+command = "echo '~'"
+when = "test $UID -eq 0"
+format = "[$output](bold red)[>](bold white) "
 
 # Usuario siempre visible
 [username]
@@ -104,11 +119,6 @@ truncate_to_repo = false
 style = "bold blue"
 format = "[$path]($style) "
 
-# Simbolo del prompt
-[character]
-success_symbol = "[~](bold green)[>](bold white)"
-error_symbol = "[~](bold red)[>](bold white)"
-
 # SSH
 [hostname]
 ssh_only = true
@@ -118,9 +128,14 @@ trim_at = '.companyname.com'
 # Codigo de estado
 [status]
 symbol = "✘"
-format = '[$status](bold red) '
+format = '[$symbol $status](bold red) '
 disabled = false
 
 # Duracion de un comando
 [cmd_duration]
 min_time=1_000
+
+# Sudo (muestra si credenciales cacheadas con iconito de un mago (as ICONO))
+#[sudo]
+#disabled = false
+#style = 'dark white'
