@@ -247,16 +247,9 @@ fi
 ##############
 
 # Autosuggestions
-if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    # change suggestion color
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
-fi
-
-# enable command-not-found if installed
-if [ -f /etc/zsh_command_not_found ]; then
-    . /etc/zsh_command_not_found
-fi
+for plugin in ~/.zsh_plugins/*; do
+	. "$plugin"
+done
 
 
 ##############
@@ -279,12 +272,13 @@ alias central-ssh='ssh a845389@central.unizar.es'
 alias pi-ssh='ssh iortxi@pi'
 alias puertos='ss -tulnp | grep LISTEN'
 alias android-ssh='ssh u0_a504@192.168.1.46 -p 8022'
-alias android-mount='sshfs -p 8022 u0_a504@192.168.1.46:/data/data/com.termux/files/home/sd/snaptube ~/android'
-alias android-umount='fusermount -u ~/android'
+alias xclip='xclip -selection clipboard'
 
+fresh() {
+    command fresh "$@"
+    reset
+}
 
-# Powerline-shell prompt
-#. ~/.zsh_powerline_shell
 
 # Starship
 eval "$(starship init zsh)"

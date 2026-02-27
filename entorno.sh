@@ -163,22 +163,26 @@ sudo rm -f /root/.bashrc /root/.zshrc
 sudo ln -s ~/.bashrc /root/.bashrc
 sudo ln -s ~/.zshrc /root/.zshrc
 
-# Powerline-shell setup
+# Powerline-shell and Starship setup
 sudo ln -s ~/.local/bin/powerline-shell /usr/bin/powerline-shell
 # User
 cp shell/bash/.bash_powerline_shell ~
 cp shell/zsh/.zsh_powerline_shell ~
 cp shell/bash/config.json ~/.config/powerline-shell
+cp shell/zsh/starship.toml ~/.config/starship.toml
+sudo ln -s ~/.config/starship.toml /root/.config/starship.toml
+mkdir -p ~/.zsh_plugins
+cp shell/zsh/plugins/* ~/.zsh_plugins/
 
 # Root
 sudo mkdir -p /root/.config/powerline-shell
 sudo ln -s ~/.bash_powerline_shell /root/.bash_powerline_shell
 sudo ln -s ~/.zsh_powerline_shell /root/.zsh_powerline_shell
 sudo ln -s ~/.config/powerline-shell/config.json /root/.config/powerline-shell/config.json
-
-# Starship setup
-cp shell/zsh/starship.toml ~/.config/starship.toml
 sudo ln -s ~/.config/starship.toml /root/.config/starship.toml
+sudo mkdir -p /root/.zsh_plugins
+sudo ln -s ~/.zsh_plugins/* /root/.zsh_plugins/
+
 
 # Shell selector
 case $shell in
